@@ -4,7 +4,13 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '../../../components/TextField/TextField'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
-import { ChevronDownIcon, UsFlagIcon } from '../../../components/icons'
+import {
+  AuFlagIcon,
+  ChevronDownIcon,
+  GbFlagIcon,
+  InFlagIcon,
+  UsFlagIcon,
+} from '../../../components/icons'
 import { validateMobile } from '../validation'
 import { sendOtp } from '../api'
 import { useAsyncAction } from '../useAsyncAction'
@@ -12,10 +18,10 @@ import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
 const COUNTRIES = [
-  { code: '+1', label: 'United States' },
-  { code: '+44', label: 'United Kingdom' },
-  { code: '+91', label: 'India' },
-  { code: '+61', label: 'Australia' },
+  { code: '+1', label: 'United States', Flag: UsFlagIcon },
+  { code: '+44', label: 'United Kingdom', Flag: GbFlagIcon },
+  { code: '+91', label: 'India', Flag: InFlagIcon },
+  { code: '+61', label: 'Australia', Flag: AuFlagIcon },
 ]
 
 export default function MobileStep({ data, update, onNext, onBack }: StepProps) {
@@ -24,6 +30,7 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
   const { pending, error: serverError, setError, run } = useAsyncAction()
 
   const error = (submitted ? validateMobile(data.mobile) : null) ?? serverError
+  const country = COUNTRIES.find((c) => c.code === data.countryCode) ?? COUNTRIES[0]
 
   const handleChange = (value: string) => {
     update({ mobile: value.replace(/[^\d]/g, '') })
@@ -64,18 +71,25 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
               aria-expanded={Boolean(anchor)}
               aria-label={`Country code ${data.countryCode}`}
             >
-              <UsFlagIcon className={styles.country_flag} />
+              <country.Flag className={styles.country_flag} />
               <span className={styles.country_code}>{data.countryCode}</span>
               <ChevronDownIcon className={styles.country_chevron} />
             </ButtonBase>
 
-            <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
+            <Menu
+              anchorEl={anchor}
+              open={Boolean(anchor)}
+              onClose={() => setAnchor(null)}
+              slotProps={{ list: { role: 'listbox' } }}
+            >
               {COUNTRIES.map((c) => (
                 <MenuItem
                   key={c.code}
+                  role="option"
                   selected={c.code === data.countryCode}
                   onClick={() => pick(c.code)}
                 >
+                  <c.Flag className={styles.menu_flag} />
                   {c.label} ({c.code})
                 </MenuItem>
               ))}
@@ -88,6 +102,7 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
                 inputMode="numeric"
                 autoComplete="tel-national"
                 placeholder="8343989239"
+                labelledBy="mobile-label"
                 value={data.mobile}
                 onChange={handleChange}
                 error={error}

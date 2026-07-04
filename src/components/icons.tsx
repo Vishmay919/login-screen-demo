@@ -115,3 +115,43 @@ export function UsFlagIcon(props: IconProps) {
     </svg>
   )
 }
+
+export function GbFlagIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 20 13" fill="none" aria-hidden {...props}>
+      <rect width="20" height="13" fill="#012169" />
+      <path d="M0 0 20 13M20 0 0 13" stroke="#fff" strokeWidth="2.6" />
+      <path d="M0 0 20 13M20 0 0 13" stroke="#c8102e" strokeWidth="1" />
+      <path d="M10 0v13M0 6.5h20" stroke="#fff" strokeWidth="4.2" />
+      <path d="M10 0v13M0 6.5h20" stroke="#c8102e" strokeWidth="2.4" />
+    </svg>
+  )
+}
+
+export function InFlagIcon(props: IconProps) {
+  const band = 13 / 3
+  return (
+    <svg viewBox="0 0 20 13" fill="none" aria-hidden {...props}>
+      <rect width="20" height="13" fill="#fff" />
+      <rect width="20" height={band} fill="#ff9933" />
+      <rect y={band * 2} width="20" height={band} fill="#138808" />
+      <circle cx="10" cy="6.5" r="1.6" stroke="#000080" strokeWidth="0.6" />
+    </svg>
+  )
+}
+
+export function AuFlagIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 20 13" fill="none" aria-hidden {...props}>
+      <rect width="20" height="13" fill="#012169" />
+      <path d="M0 0 10 6.5M10 0 0 6.5" stroke="#fff" strokeWidth="1.3" />
+      <path d="M5 0v6.5M0 3.25h10" stroke="#fff" strokeWidth="2" />
+      <path d="M5 0v6.5M0 3.25h10" stroke="#c8102e" strokeWidth="1.1" />
+      <circle cx="5" cy="10.2" r="1" fill="#fff" />
+      <circle cx="15" cy="2.8" r="0.7" fill="#fff" />
+      <circle cx="17.6" cy="5.8" r="0.7" fill="#fff" />
+      <circle cx="15" cy="10.6" r="0.7" fill="#fff" />
+      <circle cx="12.6" cy="6.4" r="0.5" fill="#fff" />
+    </svg>
+  )
+}

@@ -104,6 +104,13 @@
   flex: 1;
 }
 
+.menu_flag {
+  inline-size: 22px;
+  block-size: 16px;
+  margin-inline-end: 10px;
+  border-radius: 3px;
+}
+
 /* OTP step */
 .resend_row {
   margin-block-start: 20px;

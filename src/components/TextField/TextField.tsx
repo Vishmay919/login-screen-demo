@@ -4,6 +4,7 @@ import styles from './TextField.module.css'
 
 interface TextFieldProps {
   label?: string
+  labelledBy?: string
   value: string
   onChange: (value: string) => void
   onBlur?: () => void
@@ -21,6 +22,7 @@ interface TextFieldProps {
 
 export default function TextField({
   label,
+  labelledBy,
   value,
   onChange,
   onBlur,
@@ -63,6 +65,7 @@ export default function TextField({
           inputProps={{
             inputMode,
             'aria-invalid': hasError,
+            'aria-labelledby': labelledBy,
             'aria-describedby': message ? describedBy : undefined,
           }}
           className={styles.input}

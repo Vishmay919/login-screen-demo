@@ -4,7 +4,7 @@ import OtpInput from '../../../components/OtpInput/OtpInput'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { validateOtp } from '../validation'
 import { sendOtp, verifyOtp } from '../api'
-import { useAsyncAction } from '../useAsyncAction'
+import { messageFrom, useAsyncAction } from '../useAsyncAction'
 import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
@@ -50,6 +50,8 @@ export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
     resetEntry()
     try {
       await sendOtp(data.countryCode, data.mobile)
+    } catch (err) {
+      setError(messageFrom(err))
     } finally {
       setResending(false)
     }
