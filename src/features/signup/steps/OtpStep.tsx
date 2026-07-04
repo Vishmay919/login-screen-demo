@@ -3,31 +3,40 @@ import ButtonBase from '@mui/material/ButtonBase'
 import OtpInput from '../../../components/OtpInput/OtpInput'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { validateOtp } from '../validation'
-import { delay, type StepProps } from './stepProps'
+import { sendOtp, verifyOtp } from '../api'
+import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
 export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [resending, setResending] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
-  const error = submitted ? validateOtp(data.otp) : null
+  const error = (submitted ? validateOtp(data.otp) : null) ?? serverError
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
+    setServerError(null)
     if (validateOtp(data.otp)) return
     setLoading(true)
-    await delay(900) // pretend we are verifying the code
-    setLoading(false)
-    onNext()
+    try {
+      await verifyOtp(data.mobile, data.otp)
+      onNext()
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'Could not verify the code. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleResend = async () => {
     setResending(true)
+    setServerError(null)
     update({ otp: '' })
     setSubmitted(false)
-    await delay(800)
+    await sendOtp(data.countryCode, data.mobile)
     setResending(false)
   }
 

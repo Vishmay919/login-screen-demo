@@ -6,5 +6,3 @@ export interface StepProps {
   onNext: () => void
   onBack: () => void
 }
-
-export const delay = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))

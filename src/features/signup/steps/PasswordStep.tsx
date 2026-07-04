@@ -4,12 +4,14 @@ import TextField from '../../../components/TextField/TextField'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { EyeIcon, EyeOffIcon } from '../../../components/icons'
 import { validateConfirmPassword, validatePassword } from '../validation'
-import { delay, type StepProps } from './stepProps'
+import { createAccount } from '../api'
+import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
 export default function PasswordStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
 
@@ -21,6 +23,7 @@ export default function PasswordStep({ data, update, onNext, onBack }: StepProps
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
+    setServerError(null)
     if (
       validatePassword(data.password) ||
       validateConfirmPassword(data.password, data.confirmPassword)
@@ -28,9 +31,14 @@ export default function PasswordStep({ data, update, onNext, onBack }: StepProps
       return
     }
     setLoading(true)
-    await delay(1100) // pretend we are creating the account
-    setLoading(false)
-    onNext()
+    try {
+      await createAccount(data)
+      onNext()
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'Could not create your account. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const toggle = (visible: boolean, onToggle: () => void, label: string) => (
@@ -78,6 +86,12 @@ export default function PasswordStep({ data, update, onNext, onBack }: StepProps
           )}
         />
       </div>
+
+      {serverError && (
+        <p className={styles.error_text} role="alert">
+          {serverError}
+        </p>
+      )}
 
       <WizardFooter onBack={onBack} loading={loading} />
     </form>

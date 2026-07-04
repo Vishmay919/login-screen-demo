@@ -6,7 +6,8 @@ import TextField from '../../../components/TextField/TextField'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { ChevronDownIcon, UsFlagIcon } from '../../../components/icons'
 import { validateMobile } from '../validation'
-import { delay, type StepProps } from './stepProps'
+import { sendOtp } from '../api'
+import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
 const COUNTRIES = [
@@ -19,6 +20,7 @@ const COUNTRIES = [
 export default function MobileStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const error = submitted ? validateMobile(data.mobile) : null
@@ -26,11 +28,17 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
+    setServerError(null)
     if (validateMobile(data.mobile)) return
     setLoading(true)
-    await delay(900) // pretend we are dispatching the OTP
-    setLoading(false)
-    onNext()
+    try {
+      await sendOtp(data.countryCode, data.mobile)
+      onNext()
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'Could not send the code. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const openMenu = (e: MouseEvent<HTMLElement>) => setAnchor(e.currentTarget)
@@ -83,7 +91,7 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
                 placeholder="8343989239"
                 value={data.mobile}
                 onChange={(v) => update({ mobile: v.replace(/[^\d]/g, '') })}
-                error={error}
+                error={error ?? serverError}
               />
             </div>
           </div>
