@@ -11,25 +11,43 @@ import styles from './steps.module.css'
 export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
   const [resending, setResending] = useState(false)
+  // Bumped whenever the code should be re-entered, which remounts OtpInput so it
+  // clears its boxes and refocuses the first one.
+  const [entryId, setEntryId] = useState(0)
   const { pending, error: serverError, setError, run } = useAsyncAction()
 
   const error = (submitted ? validateOtp(data.otp) : null) ?? serverError
+
+  const resetEntry = () => {
+    setSubmitted(false)
+    update({ otp: '' })
+    setEntryId((id) => id + 1)
+  }
+
+  const handleChange = (value: string) => {
+    update({ otp: value })
+    if (serverError) setError(null)
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
     if (validateOtp(data.otp)) return
     run(async () => {
-      await verifyOtp(data.mobile, data.otp)
-      onNext()
+      try {
+        await verifyOtp(data.mobile, data.otp)
+        onNext()
+      } catch (err) {
+        resetEntry() // wrong code: clear the boxes so the user starts fresh
+        throw err
+      }
     })
   }
 
   const handleResend = async () => {
     setResending(true)
     setError(null)
-    setSubmitted(false)
-    update({ otp: '' })
+    resetEntry()
     try {
       await sendOtp(data.countryCode, data.mobile)
     } finally {
@@ -45,8 +63,9 @@ export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
         <div>
           <p className={styles.subtitle}>An OTP has been sent to your mobile number</p>
           <OtpInput
+            key={entryId}
             value={data.otp}
-            onChange={(v) => update({ otp: v })}
+            onChange={handleChange}
             error={Boolean(error)}
             autoFocus
           />

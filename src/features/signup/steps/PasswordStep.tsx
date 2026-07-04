@@ -11,7 +11,11 @@ import styles from './steps.module.css'
 
 export default function PasswordStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
-  const { pending, error: serverError, run } = useAsyncAction()
+  const { pending, error: serverError, setError, run } = useAsyncAction()
+
+  const clearServerError = () => {
+    if (serverError) setError(null)
+  }
 
   const passwordError = submitted ? validatePassword(data.password) : null
   const confirmError = submitted
@@ -41,7 +45,10 @@ export default function PasswordStep({ data, update, onNext, onBack }: StepProps
           placeholder="Enter new password"
           helper="Must be at least 6 characters"
           value={data.password}
-          onChange={(v) => update({ password: v })}
+          onChange={(v) => {
+            update({ password: v })
+            clearServerError()
+          }}
           error={passwordError}
           autoFocus
         />
@@ -51,7 +58,10 @@ export default function PasswordStep({ data, update, onNext, onBack }: StepProps
           placeholder="Confirm password"
           helper="Both passwords must match"
           value={data.confirmPassword}
-          onChange={(v) => update({ confirmPassword: v })}
+          onChange={(v) => {
+            update({ confirmPassword: v })
+            clearServerError()
+          }}
           error={confirmError}
         />
       </div>

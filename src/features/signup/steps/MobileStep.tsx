@@ -21,9 +21,14 @@ const COUNTRIES = [
 export default function MobileStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
-  const { pending, error: serverError, run } = useAsyncAction()
+  const { pending, error: serverError, setError, run } = useAsyncAction()
 
   const error = (submitted ? validateMobile(data.mobile) : null) ?? serverError
+
+  const handleChange = (value: string) => {
+    update({ mobile: value.replace(/[^\d]/g, '') })
+    if (serverError) setError(null)
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -84,7 +89,7 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
                 autoComplete="tel-national"
                 placeholder="8343989239"
                 value={data.mobile}
-                onChange={(v) => update({ mobile: v.replace(/[^\d]/g, '') })}
+                onChange={handleChange}
                 error={error}
               />
             </div>
