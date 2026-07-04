@@ -34,7 +34,7 @@ export default function SuccessModal({ open, data, onGoToDashboard }: SuccessMod
           {rows.map((row) => (
             <div key={row.label} className={styles.row}>
               <dt className={styles.row_label}>{row.label}</dt>
-              <dd className={styles.row_value}>{row.value}</dd>
+              <dd className={styles.row_value} title={row.value}>{row.value}</dd>
             </div>
           ))}
         </dl>

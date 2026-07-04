@@ -65,22 +65,28 @@
 
 .row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   padding-block: 8px;
 }
 
 .row_label {
+  flex-shrink: 0;
   color: var(--color-muted);
   font-size: 15px;
 }
 
 .row_value {
   margin: 0;
+  min-inline-size: 0;
   color: var(--color-navy);
   font-size: 15px;
   font-weight: 600;
+  text-align: end;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .secure {
@@ -123,4 +129,22 @@
 
 .cta:focus-visible {
   box-shadow: var(--shadow-focus);
+}
+
+/* On narrow screens the label + value no longer fit side by side, so stack
+   them and give the value the full width before the ellipsis kicks in. */
+@media (max-width: 480px) {
+  .card {
+    padding: 32px 24px 28px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .row_value {
+    text-align: start;
+  }
 }
