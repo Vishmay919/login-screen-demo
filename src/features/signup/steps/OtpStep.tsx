@@ -4,40 +4,37 @@ import OtpInput from '../../../components/OtpInput/OtpInput'
 import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { validateOtp } from '../validation'
 import { sendOtp, verifyOtp } from '../api'
+import { useAsyncAction } from '../useAsyncAction'
 import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
 export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [resending, setResending] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
+  const { pending, error: serverError, setError, run } = useAsyncAction()
 
   const error = (submitted ? validateOtp(data.otp) : null) ?? serverError
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
-    setServerError(null)
     if (validateOtp(data.otp)) return
-    setLoading(true)
-    try {
+    run(async () => {
       await verifyOtp(data.mobile, data.otp)
       onNext()
-    } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'Could not verify the code. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   const handleResend = async () => {
     setResending(true)
-    setServerError(null)
-    update({ otp: '' })
+    setError(null)
     setSubmitted(false)
-    await sendOtp(data.countryCode, data.mobile)
-    setResending(false)
+    update({ otp: '' })
+    try {
+      await sendOtp(data.countryCode, data.mobile)
+    } finally {
+      setResending(false)
+    }
   }
 
   return (
@@ -72,7 +69,7 @@ export default function OtpStep({ data, update, onNext, onBack }: StepProps) {
         </div>
       </div>
 
-      <WizardFooter onBack={onBack} loading={loading} />
+      <WizardFooter onBack={onBack} loading={pending} />
     </form>
   )
 }

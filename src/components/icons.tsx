@@ -103,12 +103,12 @@ export function ShieldCheckIcon(props: IconProps) {
 }
 
 export function UsFlagIcon(props: IconProps) {
-  const stripe = 13 / 7 // 7 red stripes across a 13-unit tall flag
-  const rows = [0, 1, 2, 3, 4, 5, 6]
+  const RED_STRIPES = 7
+  const stripe = 13 / RED_STRIPES // stripe height across a 13-unit tall flag
   return (
     <svg viewBox="0 0 20 13" fill="none" aria-hidden {...props}>
       <rect width="20" height="13" fill="#fff" />
-      {rows.map((i) => (
+      {Array.from({ length: RED_STRIPES }, (_, i) => (
         <rect key={i} y={i * 2 * stripe} width="20" height={stripe} fill="#d7263d" />
       ))}
       <rect width="8.4" height={stripe * 7} fill="#283991" />

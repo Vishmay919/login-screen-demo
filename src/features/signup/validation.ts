@@ -1,10 +1,16 @@
 export const MIN_PASSWORD_LENGTH = 6
 export const OTP_LENGTH = 4
 
+const MIN_MOBILE_DIGITS = 7
+const MAX_MOBILE_DIGITS = 15
+const MIN_NAME_LENGTH = 2
+
 export function validateMobile(value: string): string | null {
   const digits = value.replace(/\D/g, '')
   if (!digits) return 'Mobile number is required'
-  if (digits.length < 7 || digits.length > 15) return 'Enter a valid mobile number'
+  if (digits.length < MIN_MOBILE_DIGITS || digits.length > MAX_MOBILE_DIGITS) {
+    return 'Enter a valid mobile number'
+  }
   return null
 }
 
@@ -16,7 +22,7 @@ export function validateOtp(value: string): string | null {
 export function validateName(value: string, label: string): string | null {
   const trimmed = value.trim()
   if (!trimmed) return `${label} is required`
-  if (trimmed.length < 2) return `${label} looks too short`
+  if (trimmed.length < MIN_NAME_LENGTH) return `${label} looks too short`
   return null
 }
 

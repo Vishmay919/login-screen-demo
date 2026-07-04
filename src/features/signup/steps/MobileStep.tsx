@@ -7,6 +7,7 @@ import WizardFooter from '../../../components/WizardFooter/WizardFooter'
 import { ChevronDownIcon, UsFlagIcon } from '../../../components/icons'
 import { validateMobile } from '../validation'
 import { sendOtp } from '../api'
+import { useAsyncAction } from '../useAsyncAction'
 import type { StepProps } from './stepProps'
 import styles from './steps.module.css'
 
@@ -19,26 +20,19 @@ const COUNTRIES = [
 
 export default function MobileStep({ data, update, onNext, onBack }: StepProps) {
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+  const { pending, error: serverError, run } = useAsyncAction()
 
-  const error = submitted ? validateMobile(data.mobile) : null
+  const error = (submitted ? validateMobile(data.mobile) : null) ?? serverError
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
-    setServerError(null)
     if (validateMobile(data.mobile)) return
-    setLoading(true)
-    try {
+    run(async () => {
       await sendOtp(data.countryCode, data.mobile)
       onNext()
-    } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'Could not send the code. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   const openMenu = (e: MouseEvent<HTMLElement>) => setAnchor(e.currentTarget)
@@ -91,14 +85,14 @@ export default function MobileStep({ data, update, onNext, onBack }: StepProps) 
                 placeholder="8343989239"
                 value={data.mobile}
                 onChange={(v) => update({ mobile: v.replace(/[^\d]/g, '') })}
-                error={error ?? serverError}
+                error={error}
               />
             </div>
           </div>
         </div>
       </div>
 
-      <WizardFooter onBack={onBack} loading={loading} />
+      <WizardFooter onBack={onBack} loading={pending} />
     </form>
   )
 }

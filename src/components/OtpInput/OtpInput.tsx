@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ClipboardEvent, type KeyboardEvent } from 'react'
+import { useRef, type ClipboardEvent, type KeyboardEvent } from 'react'
 import { OTP_LENGTH } from '../../features/signup/validation'
 import styles from './OtpInput.module.css'
 
@@ -63,12 +63,6 @@ export default function OtpInput({
     focusBox(pasted.length - 1)
   }
 
-  useEffect(() => {
-    if (autoFocus) focusBox(0)
-    // run once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className={styles.group} role="group" aria-label="One-time passcode" onPaste={handlePaste}>
       {chars.map((char, index) => (
@@ -82,6 +76,7 @@ export default function OtpInput({
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onFocus={(e) => e.target.select()}
+          autoFocus={autoFocus && index === 0}
           inputMode="numeric"
           autoComplete="one-time-code"
           maxLength={1}
