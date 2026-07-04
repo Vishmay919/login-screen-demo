@@ -1,0 +1,38 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  animation: step_in 0.34s var(--ease-out) both;
+}
+
+.step_back {
+  animation-name: step_in_back;
+}
+
+@keyframes step_in {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes step_in_back {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    animation: none;
+  }
+}

@@ -1,0 +1,56 @@
+:root {
+  /* Brand palette (from Figma) */
+  --color-primary: #0054fd;
+  --color-primary-hover: #0047d6;
+  --color-primary-active: #003bb3;
+  --color-navy: #132c4a;
+  --color-page: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-border: #d9d9d9;
+  --color-orange: #ff7c52;
+
+  /* Text */
+  --color-text: #132c4a;
+  --color-muted: #7a8699;
+  --color-placeholder: #9aa4b2;
+
+  /* Feedback */
+  --color-error: #e0364f;
+  --color-success: #1aa260;
+
+  /* Radii */
+  --radius-input: 12px;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-card: 0 24px 48px -24px rgba(19, 44, 74, 0.18);
+  --shadow-focus: 0 0 0 3px rgba(0, 84, 253, 0.15);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: 'Rubik', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--color-text);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+}

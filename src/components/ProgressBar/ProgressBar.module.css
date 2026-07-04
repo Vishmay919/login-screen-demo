@@ -1,0 +1,17 @@
+.track {
+  position: relative;
+  inline-size: 100%;
+  block-size: 5px;
+  border-radius: var(--radius-pill);
+  background: #e6eaf1;
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  block-size: 100%;
+  inline-size: calc(var(--fill, 0) * 100%);
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: inline-size 0.45s var(--ease-out);
+}

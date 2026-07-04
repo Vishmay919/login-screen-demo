@@ -1,0 +1,156 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.heading {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+
+.accent {
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--color-muted);
+}
+
+.error_text {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--color-error);
+}
+
+/* Growing region that holds the fields and pushes the footer to the bottom. */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  margin-block-start: 40px;
+}
+
+.fields_tight {
+  gap: 16px;
+}
+
+.label {
+  display: block;
+  margin-block-end: 8px;
+  color: var(--color-muted);
+  font-size: 16px;
+}
+
+.required {
+  color: var(--color-error);
+}
+
+/* Mobile step */
+.mobile_row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.country {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  block-size: 56px;
+  padding-inline: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  transition:
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
+}
+
+.country:hover {
+  border-color: #bcc4d0;
+}
+
+.country:focus-visible,
+.country_open {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.country_flag {
+  inline-size: 22px;
+  block-size: 16px;
+  border-radius: 3px;
+}
+
+.country_code {
+  font-size: 16px;
+  color: var(--color-navy);
+}
+
+.country_chevron {
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--color-muted);
+}
+
+.mobile_input {
+  flex: 1;
+}
+
+/* OTP step */
+.resend_row {
+  margin-block-start: 20px;
+  text-align: end;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.resend_btn {
+  margin-inline-start: 6px;
+  padding: 2px 4px;
+  border-radius: 6px;
+  color: var(--color-primary);
+  font: 500 14px 'Rubik', sans-serif;
+  transition: color 0.18s var(--ease-out);
+}
+
+.resend_btn:hover {
+  color: var(--color-primary-hover);
+}
+
+.resend_btn:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.resend_btn.Mui-disabled {
+  color: var(--color-muted);
+}
+
+/* Password step */
+.pw_toggle {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 8px;
+  color: var(--color-primary);
+  transition: background-color 0.18s var(--ease-out);
+}
+
+.pw_toggle:hover {
+  background: rgba(0, 84, 253, 0.08);
+}
+
+.pw_toggle:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.pw_toggle svg {
+  inline-size: 20px;
+  block-size: 20px;
+}

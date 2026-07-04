@@ -1,0 +1,79 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  inline-size: 100%;
+  block-size: 76px;
+  padding-inline: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  text-align: start;
+  transition:
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
+}
+
+.card:hover {
+  border-color: #bcc4d0;
+}
+
+.card:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.card_selected,
+.card_selected:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.icon {
+  display: inline-flex;
+  color: var(--color-navy);
+}
+
+.icon svg {
+  inline-size: 22px;
+  block-size: 22px;
+}
+
+.card_selected .icon {
+  color: var(--color-primary);
+}
+
+.label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+
+.card_selected .label {
+  color: var(--color-primary);
+}
+
+/* Trailing check: an empty ring by default, filled when selected. */
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: var(--radius-pill);
+  color: transparent;
+  transition:
+    background-color 0.18s var(--ease-out),
+    color 0.18s var(--ease-out);
+}
+
+.check_on {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.check_icon {
+  inline-size: 15px;
+  block-size: 15px;
+}

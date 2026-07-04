@@ -1,0 +1,79 @@
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-block-end: 8px;
+  color: var(--color-muted);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.required {
+  color: var(--color-error);
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  block-size: 56px;
+  padding-inline: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  transition:
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
+}
+
+.control:hover {
+  border-color: #bcc4d0;
+}
+
+.control:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.control_error {
+  border-color: var(--color-error);
+}
+
+.control_error:focus-within {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(224, 54, 79, 0.15);
+}
+
+.input {
+  flex: 1;
+  font: 400 16px 'Rubik', sans-serif;
+  color: var(--color-navy);
+}
+
+.input :global(input) {
+  padding: 0;
+  block-size: auto;
+}
+
+.input :global(input)::placeholder {
+  color: var(--color-placeholder);
+  opacity: 1;
+}
+
+.adornment {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary);
+}
+
+.helper {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.helper_error {
+  color: var(--color-error);
+}

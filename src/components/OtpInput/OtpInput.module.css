@@ -1,0 +1,47 @@
+.group {
+  display: flex;
+  gap: 20px;
+}
+
+.box {
+  inline-size: 64px;
+  block-size: 64px;
+  border: 1px solid #c9d4ec;
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  text-align: center;
+  font: 500 24px 'Rubik', sans-serif;
+  color: var(--color-navy);
+  transition:
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
+}
+
+.box_filled {
+  border-color: var(--color-primary);
+}
+
+.box:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.box_error {
+  border-color: var(--color-error);
+}
+
+.box_error:focus {
+  box-shadow: 0 0 0 3px rgba(224, 54, 79, 0.15);
+}
+
+@media (max-width: 420px) {
+  .group {
+    gap: 12px;
+  }
+
+  .box {
+    inline-size: 56px;
+    block-size: 56px;
+  }
+}
