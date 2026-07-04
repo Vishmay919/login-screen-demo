@@ -4,7 +4,7 @@ A multi step account signup flow built from a Figma design. It walks the user
 through picking an account type, verifying a mobile number with an OTP, entering
 their name, and setting a password, then shows a summary of what they entered.
 
-Live demo: _add deployed URL here_
+Live demo: https://login-screen-demo.vercel.app/
 
 ## Tech stack
 
@@ -138,8 +138,3 @@ The Figma summary screen lists an Email row, but there is no step in the flow
 that collects an email address. The summary here shows the values the flow
 actually gathers: account type, name, and mobile number.
 
-## Possible next steps
-
-- Point the functions in `api.ts` at a real backend
-- Persist progress so a refresh does not reset the flow
-- Add unit tests for the validation functions and step transitions
